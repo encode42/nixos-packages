@@ -1,0 +1,5 @@
+/.ignore/
+/.idea/
+
+/result
+/.nixos-test-history
