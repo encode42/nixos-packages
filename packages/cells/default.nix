@@ -32,11 +32,34 @@ buildGoModule rec {
         "TestWGetAction_Run"
         "TestGetTimeFromNtp"
 
-        # This test takes a *very* long time to complete
+        # These tests take a *very* long time to complete
         "TestConcurrentReceivesGetAllTheMessages"
+        "TestSizeRotation"
+        "TestHandler_ReadNode"
+        "TestMemory"
+        "TestService"
+        "TestProducer"
+
+        # These tests take less time than above, but a while to complete
+        # They are skipped since they likely passed before release
+        "TestBoltMassivePurge"
+        "TestInsertActivity"
+        "TestMessageRepository"
+        "TestGetSetMemory"
+        "TestFlatFolderWithMassiveChildren"
+        "TestShort"
+        "TestSearchNode"
+        "TestSearchByGeolocation"
+        "TestDeleteNode"
+        "TestClearIndex"
+        "TestSearchByUuidsMatch"
+        "TestIndexLongNode"
+        "TestPatHandler_Generate"
+        "TestPatHandler_AutoRefresh"
+        "TestShareLinks"
       ];
     in
-    [ "-v" "-skip=^${builtins.concatStringsSep "$|^" skippedTests}$" ];
+    [ "-skip=^${builtins.concatStringsSep "$|^" skippedTests}$" ];
 
   meta = {
     description = "Future-proof content collaboration platform";

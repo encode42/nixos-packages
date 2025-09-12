@@ -1,30 +1,32 @@
-{ flake, pkgs, ... }:
+{ flake, pkgs, lib, ... }:
 
 pkgs.nixosTest {
   name = "omnipoly-test";
 
-  nodes.machine = { ... }: {
-    imports = [
-      flake.nixosModules.omnipoly
-    ];
+  nodes.machine =
+    { config, ... }:
+    {
+      imports = [
+        flake.nixosModules.libretranslate
+        flake.nixosModules.omnipoly
+      ];
 
-    services.languagetool = {
-      enable = true;
-    };
+      services.languagetool = {
+        enable = true;
 
-    # TODO: start and configure languagetool
-    # TODO: start and configure libretranslate
+        port = 6000;
+      };
 
-    services.omnipoly = {
-      enable = true;
+      services.libretranslate = {
+        enable = true;
 
-      port = 5000;
+        port = 7000;
+      };
 
-      environment = {
-        LANGUAGE_TOOL = "https://127.0.01:8081";
+      services.omnipoly = {
+        enable = true;
       };
     };
-  };
 
   # TODO: This is a very basic test
 

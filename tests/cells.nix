@@ -1,15 +1,22 @@
-{ flake, pkgs, ... }:
+{
+  flake,
+  pkgs,
+  lib,
+  ...
+}:
 
 pkgs.nixosTest {
   name = "cells-test";
 
-  nodes.machine = { ... }: {
-    imports = [
-      flake.nixosModules.cells
-    ];
+  nodes.machine =
+    { ... }:
+    {
+      imports = [
+        flake.nixosModules.cells
+      ];
 
-    services.cells.enable = true;
-  };
+      services.cells.enable = true;
+    };
 
   # TODO: This is a very basic test
 

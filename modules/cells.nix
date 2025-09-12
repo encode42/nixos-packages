@@ -154,67 +154,71 @@ in
       wantedBy = [ "multi-user.target" ];
       after = [
         "network.target"
-      ] ++ lib.optional cfg.database.enable "mysql.service";
+      ]
+      ++ lib.optional cfg.database.enable "mysql.service";
 
-      environment = cfg.environment // {
-        CELLS_LOG_DIR = "$LOGS_DIRECTORY";
-        CELLS_WORKING_DIR = "$STATE_DIRECTORY";
-      };
+      environment = cfg.environment;
+
+      script = ''
+        ${lib.concatLines (
+          lib.mapAttrsToList
+            (name: value: ''
+              export ${name}="''${${name}-${value}}"
+            '')
+            {
+              CELLS_WORKING_DIR = "$STATE_DIRECTORY";
+              CELLS_LOG_DIR = "$LOGS_DIRECTORY";
+            }
+        )}
+
+        exec ${lib.getExe cfg.package} start
+      '';
+
 
       serviceConfig = {
-        Type = "simple";
-        Restart = "on-failure";
-
-        ExecStart = "${lib.getExe cfg.package} start";
-
+        DynamicUser = true;
+        StateDirectory = cfg.stateDirectory;
+        StateDirectoryMode = "0700";
         UMask = "0077";
 
         SupplementaryGroups = cfg.extraGroups;
 
-        DynamicUser = true;
-        StateDirectory = cfg.stateDirectory;
-        StateDirectoryMode = "0700";
-        CacheDirectory = "pydio";
-        CacheDirectoryMode = "0700";
-        LogsDirectory = "pydio";
-        LogsDirectoryMode = "0700";
-
         EnvironmentFile = cfg.environmentFile;
 
-        AmbientCapabilities = "CAP_NET_BIND_SERVICE";
-        LimitNOFILE = 65536;
-        TimeoutStopSec = 5;
-        KillSignal = "INT";
-        SendSIGKILL = "yes";
-        SuccessExitStatus = 0;
-
-        ProtectHome = true;
-        # TODO: one of these commented options are causing panics
-        #ProtectProc = "invisible";
-        ProtectClock = true;
-        ProtectHostname = true;
-        #ProtectControlGroups = true;
-        #ProtectKernelLogs = true;
-        #ProtectKernelModules = true;
-        #ProtectKernelTunables = true;
-        PrivateUsers = true;
+        AmbientCapabilities = "";
+        CapabilityBoundingSet = [ "" ];
+        DevicePolicy = "closed";
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        NoNewPrivileges = true;
         PrivateDevices = true;
-        RestrictRealtime = true;
+        PrivateTmp = true;
+        PrivateUsers = true;
+        ProcSubset = "pid";
+        ProtectClock = true;
+        ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectProc = "invisible";
+        ProtectSystem = "strict";
+        RemoveIPC = true;
         RestrictNamespaces = [
           "user"
           "mnt"
+        ];
+        RestrictRealtime = true;
+        RestrictSUIDSGID = true;
         SocketBindAllow = "tcp:${toString cfg.port}";
         SocketBindDeny = "any";
+        SystemCallArchitectures = "native";
+        SystemCallFilter = [
+          "@system-service"
+          "~@privileged"
+          "~@resources"
         ];
-        #RestrictAddressFamilies = [
-        #  "AF_INET"
-        #  "AF_INET6"
-        #  "AF_UNIX"
-        #];
-        LockPersonality = true;
-        DeviceAllow = [ "" ];
-        DevicePolicy = "closed";
-        CapabilityBoundingSet = [ "" ];
       };
     };
   };

@@ -60,7 +60,7 @@ in
 
     port = mkOption {
       type = types.int;
-      default = 80;
+      default = 5000;
 
       description = "Port to bind webserver.";
 
@@ -81,15 +81,22 @@ in
       description = "OmniPoly frontend for LanguageTool and LibreTranslate";
 
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
+      after = [ "network.target" ]
+      ++ lib.optional config.services.languagetool.enable "languagetool.service"
+      ++ lib.optional config.services.libretranslate.enable "libretranslate.service";
 
-      environment = cfg.environment // {
-        PORT = toString cfg.port;
-      };
-
-      script = ''
-        exec ${pkgs.nodejs}/bin/node ${cfg.package}/share/omnipoly/index.js
-      '';
+      environment = lib.mkMerge [
+        cfg.environment
+        {
+          PORT = toString cfg.port;
+        }
+        (mkIf config.services.languagetool.enable {
+          LANGUAGE_TOOL = "http://127.0.0.1:${toString config.services.languagetool.port}";
+        })
+        (mkIf config.services.libretranslate.enable {
+          LIBRETRANSLATE = "http://127.0.0.1:${toString config.services.libretranslate.port}";
+        })
+      ];
 
       serviceConfig = {
         Type = "simple";
@@ -97,39 +104,44 @@ in
 
         EnvironmentFile = cfg.environmentFile;
 
-        UMask = "0077";
+        ExecStart = "${pkgs.nodejs}/bin/node ${cfg.package}/share/omnipoly/index.js";
 
         DynamicUser = true;
         StateDirectory = "omnipoly";
         StateDirectoryMode = "0700";
+        UMask = "0077";
 
-        AmbientCapabilities = "CAP_NET_BIND_SERVICE";
-        LimitNOFILE = 65536;
-        TimeoutStopSec = 5;
-        KillSignal = "INT";
-        SendSIGKILL = "yes";
-        SuccessExitStatus = 0;
-
-        ProtectHome = true;
-        ProtectProc = "invisible";
+        AmbientCapabilities = "";
+        CapabilityBoundingSet = [ "" ];
+        DevicePolicy = "closed";
+        LockPersonality = true;
+        NoNewPrivileges = true;
+        PrivateDevices = true;
+        PrivateTmp = true;
+        PrivateUsers = true;
+        ProcSubset = "pid";
         ProtectClock = true;
-        ProtectHostname = true;
         ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectHostname = true;
         ProtectKernelLogs = true;
         ProtectKernelModules = true;
         ProtectKernelTunables = true;
-        PrivateUsers = true;
-        PrivateDevices = true;
+        ProtectProc = "invisible";
+        ProtectSystem = "strict";
+        RemoveIPC = true;
+        RestrictAddressFamilies = [ "AF_INET AF_INET6" "AF_UNIX" ];
+        RestrictNamespaces = true;
         RestrictRealtime = true;
-        RestrictAddressFamilies = [
-          "AF_INET"
-          "AF_INET6"
-          "AF_UNIX"
+        RestrictSUIDSGID = true;
+        SocketBindAllow = "tcp:${toString cfg.port}";
+        SocketBindDeny = "any";
+        SystemCallArchitectures = "native";
+        SystemCallFilter = [
+          "@system-service"
+          "~@privileged"
+          "~@resources"
         ];
-        LockPersonality = true;
-        DeviceAllow = [ "" ];
-        DevicePolicy = "closed";
-        CapabilityBoundingSet = [ "" ];
       };
     };
   };
