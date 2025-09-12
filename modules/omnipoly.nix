@@ -8,6 +8,8 @@
 let
   cfg = config.services.omnipoly;
 
+  pkgs-internal = import ../packages { inherit pkgs; };
+
   inherit (lib)
     types
     mkIf
@@ -20,7 +22,12 @@ in
   options.services.omnipoly = {
     enable = mkEnableOption "omnipoly";
 
-    package = mkPackageOption pkgs "omnipoly" { };
+    package = mkOption {
+      type = types.package;
+      default = pkgs-internal.omnipoly;
+
+      description = "The OmniPoly package to use.";
+    };
 
     environment = mkOption {
       type = types.attrsOf types.str;

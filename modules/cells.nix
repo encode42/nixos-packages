@@ -8,19 +8,25 @@ let
   cfg = config.services.cells;
   format = pkgs.formats.json { };
 
+  pkgs-internal = import ../packages { inherit pkgs; };
+
   inherit (lib)
     types
     mkIf
     mkOption
     mkEnableOption
-    mkPackageOption
     ;
 in
 {
   options.services.cells = {
     enable = mkEnableOption "Whether to enable Pydio Cells content collaboration platform.";
 
-    package = mkPackageOption pkgs "cells" { };
+    package = mkOption {
+      type = types.package;
+      default = pkgs-internal.cells;
+
+      description = "The Pydio Cells package to use.";
+    };
 
     extraGroups = mkOption {
       type = types.listOf types.str;
