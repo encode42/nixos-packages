@@ -113,6 +113,17 @@ in
       '';
     };
 
+    port = mkOption {
+      type = types.int;
+      default = 8080;
+
+      description = ''
+        Port used by Pydio Cells.
+
+        Note that this *will not* set the port that Pydio Cells listens on!
+      '';
+    };
+
     openFirewall = mkEnableOption "Open ports in the firewall for the cells web interface.";
   };
 
@@ -134,7 +145,7 @@ in
     };
 
     networking.firewall = mkIf cfg.openFirewall {
-      allowedTCPPorts = [ 8080 ];
+      allowedTCPPorts = [ cfg.port ];
     };
 
     systemd.services.cells = {
@@ -192,6 +203,8 @@ in
         RestrictNamespaces = [
           "user"
           "mnt"
+        SocketBindAllow = "tcp:${toString cfg.port}";
+        SocketBindDeny = "any";
         ];
         #RestrictAddressFamilies = [
         #  "AF_INET"
