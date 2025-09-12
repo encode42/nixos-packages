@@ -204,8 +204,8 @@ in
 
         EnvironmentFile = cfg.environmentFile;
 
-        AmbientCapabilities = "";
-        CapabilityBoundingSet = [ "" ];
+        AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+        CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
         DevicePolicy = "closed";
         LockPersonality = true;
         MemoryDenyWriteExecute = true;
