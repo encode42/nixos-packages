@@ -230,7 +230,10 @@ in
         ];
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
-        SocketBindAllow = "tcp:${toString cfg.port}";
+        SocketBindAllow = [
+          "tcp:${toString cfg.port}"
+          "tcp:8030"
+        ];
         SocketBindDeny = "any";
         SystemCallArchitectures = "native";
         SystemCallFilter = [
