@@ -96,6 +96,7 @@ in
         DynamicUser = true;
         StateDirectory = "libretranslate";
         StateDirectoryMode = "0700";
+        WorkingDirectory = "%S/libretranslate";
         UMask = "0077";
 
         AmbientCapabilities = "";
@@ -104,9 +105,9 @@ in
         LockPersonality = true;
         MemoryDenyWriteExecute = true;
         NoNewPrivileges = true;
+        PrivateDevices = true;
         PrivateTmp = true;
         PrivateUsers = true;
-        ProcSubset = "pid";
         ProtectClock = true;
         ProtectControlGroups = true;
         ProtectHome = true; #
@@ -114,7 +115,6 @@ in
         ProtectKernelLogs = true;
         ProtectKernelModules = true;
         ProtectKernelTunables = true;
-        ProtectProc = "invisible";
         ProtectSystem = "strict";
         RemoveIPC = true; #
         RestrictAddressFamilies = [ "AF_INET AF_INET6" "AF_UNIX" ];
