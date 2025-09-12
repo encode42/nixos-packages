@@ -213,7 +213,6 @@ in
         PrivateDevices = true;
         PrivateTmp = true;
         PrivateUsers = true;
-        ProcSubset = "pid";
         ProtectClock = true;
         ProtectControlGroups = true;
         ProtectHome = true;
@@ -221,7 +220,6 @@ in
         ProtectKernelLogs = true;
         ProtectKernelModules = true;
         ProtectKernelTunables = true;
-        ProtectProc = "invisible";
         ProtectSystem = "strict";
         RemoveIPC = true;
         RestrictNamespaces = [

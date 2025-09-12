@@ -110,13 +110,13 @@ in
         PrivateUsers = true;
         ProtectClock = true;
         ProtectControlGroups = true;
-        ProtectHome = true; #
+        ProtectHome = true;
         ProtectHostname = true;
         ProtectKernelLogs = true;
         ProtectKernelModules = true;
         ProtectKernelTunables = true;
         ProtectSystem = "strict";
-        RemoveIPC = true; #
+        RemoveIPC = true;
         RestrictAddressFamilies = [ "AF_INET AF_INET6" "AF_UNIX" ];
         RestrictNamespaces = true;
         RestrictRealtime = true;
