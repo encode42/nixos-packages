@@ -174,7 +174,6 @@ in
         exec ${lib.getExe cfg.package} start
       '';
 
-
       serviceConfig = {
         DynamicUser = true;
         StateDirectory = cfg.stateDirectory;

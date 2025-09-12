@@ -17,9 +17,19 @@ buildGoModule rec {
 
   vendorHash = "sha256-v23Ep9mTyG8fe5xa9ay9T4/ZEBU9LQHj6keIPZmm5d0=";
 
-  ldflags = [ "-s" "-w" "-X github.com/pydio/cells/v4/common.version=${src.tag}" "-X github.com/pydio/cells/v4/common.BuildRevision=${version}" "-X github.com/pydio/cells/v4/common.BuildStamp=1970-01-01T00:00:00" ];
+  ldflags = [
+    "-s"
+    "-w"
+    "-X github.com/pydio/cells/v4/common.version=${src.tag}"
+    "-X github.com/pydio/cells/v4/common.BuildRevision=${version}"
+    "-X github.com/pydio/cells/v4/common.BuildStamp=1970-01-01T00:00:00"
+  ];
 
-  excludedPackages = [ "cmd/cells-fuse" "cmd/protoc-gen-go-client-stub" "cmd/protoc-gen-go-enhanced-grpc" ];
+  excludedPackages = [
+    "cmd/cells-fuse"
+    "cmd/protoc-gen-go-client-stub"
+    "cmd/protoc-gen-go-enhanced-grpc"
+  ];
 
   preCheck = ''
     export HOME=$(mktemp -d);

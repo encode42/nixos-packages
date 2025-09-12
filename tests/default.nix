@@ -1,11 +1,13 @@
 { flake, pkgs }:
 
 let
-  mkTest = path: import path {
-    inherit flake pkgs;
+  mkTest =
+    path:
+    import path {
+      inherit flake pkgs;
 
-    lib = pkgs.lib;
-  };
+      lib = pkgs.lib;
+    };
 in
 {
   cells = mkTest ./cells.nix;

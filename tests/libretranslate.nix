@@ -1,21 +1,23 @@
 {
   flake,
   lib,
-  pkgs
+  pkgs,
 }:
 
 pkgs.nixosTest {
   name = "libretranslate";
 
-  nodes.machine = { ... }: {
-    imports = [
-      flake.nixosModules.libretranslate
-    ];
+  nodes.machine =
+    { ... }:
+    {
+      imports = [
+        flake.nixosModules.libretranslate
+      ];
 
-    services.libretranslate = {
-      enable = true;
+      services.libretranslate = {
+        enable = true;
+      };
     };
-  };
 
   # TODO: This is a very basic test
 

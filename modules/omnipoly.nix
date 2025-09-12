@@ -81,7 +81,9 @@ in
       description = "OmniPoly frontend for LanguageTool and LibreTranslate";
 
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ]
+      after = [
+        "network.target"
+      ]
       ++ lib.optional config.services.languagetool.enable "languagetool.service"
       ++ lib.optional config.services.libretranslate.enable "libretranslate.service";
 
@@ -130,7 +132,10 @@ in
         ProtectProc = "invisible";
         ProtectSystem = "strict";
         RemoveIPC = true;
-        RestrictAddressFamilies = [ "AF_INET AF_INET6" "AF_UNIX" ];
+        RestrictAddressFamilies = [
+          "AF_INET AF_INET6"
+          "AF_UNIX"
+        ];
         RestrictNamespaces = true;
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
