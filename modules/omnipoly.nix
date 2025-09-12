@@ -101,17 +101,14 @@ in
       ];
 
       serviceConfig = {
-        Type = "simple";
-        Restart = "on-failure";
-
-        EnvironmentFile = cfg.environmentFile;
-
-        ExecStart = "${pkgs.nodejs}/bin/node ${cfg.package}/share/omnipoly/index.js";
-
         DynamicUser = true;
         StateDirectory = "omnipoly";
         StateDirectoryMode = "0700";
         UMask = "0077";
+
+        EnvironmentFile = cfg.environmentFile;
+
+        ExecStart = "${pkgs.nodejs}/bin/node ${cfg.package}/share/omnipoly/index.js";
 
         AmbientCapabilities = "";
         CapabilityBoundingSet = [ "" ];

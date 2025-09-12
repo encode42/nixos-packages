@@ -67,56 +67,63 @@ in
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
 
-      environment = cfg.environment // {
-        HOME = "$STATE_DIRECTORY";
-      };
+      environment = cfg.environment;
+
+      script = ''
+        ${lib.concatLines (
+          lib.mapAttrsToList
+            (name: value: ''
+              export ${name}="''${${name}-${value}}"
+            '')
+            {
+              HOME = "$STATE_DIRECTORY";
+            }
+        )}
+
+        exec ${
+          utils.escapeSystemdExecArgs (
+            [
+              "${cfg.package}/bin/libretranslate"
+              "--port"
+              (toString cfg.port)
+            ]
+            ++ cfg.extraArgs
+          )
+        }
+      '';
 
       serviceConfig = {
-        Type = "simple";
-        Restart = "on-failure";
-
-        ExecStart = utils.escapeSystemdExecArgs (
-          [
-            "${cfg.package}/bin/libretranslate"
-            "--port"
-            (toString cfg.port)
-          ]
-          ++ cfg.extraArgs
-        );
-
-        UMask = "0077";
-
         DynamicUser = true;
         StateDirectory = "libretranslate";
         StateDirectoryMode = "0700";
+        UMask = "0077";
 
-        AmbientCapabilities = "CAP_NET_BIND_SERVICE";
-        LimitNOFILE = 65536;
-        TimeoutStopSec = 5;
-        KillSignal = "INT";
-        SendSIGKILL = "yes";
-        SuccessExitStatus = 0;
-
-        ProtectHome = true;
-        ProtectProc = "invisible";
+        AmbientCapabilities = "";
+        CapabilityBoundingSet = [ "" ];
+        DevicePolicy = "closed";
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        NoNewPrivileges = true;
+        PrivateTmp = true;
+        PrivateUsers = true;
+        ProcSubset = "pid";
         ProtectClock = true;
-        ProtectHostname = true;
         ProtectControlGroups = true;
+        ProtectHome = true; #
+        ProtectHostname = true;
         ProtectKernelLogs = true;
         ProtectKernelModules = true;
         ProtectKernelTunables = true;
-        PrivateUsers = true;
-        PrivateDevices = true;
+        ProtectProc = "invisible";
+        ProtectSystem = "strict";
+        RemoveIPC = true; #
+        RestrictAddressFamilies = [ "AF_INET AF_INET6" "AF_UNIX" ];
+        RestrictNamespaces = true;
         RestrictRealtime = true;
-        RestrictAddressFamilies = [
-          "AF_INET"
-          "AF_INET6"
-          "AF_UNIX"
-        ];
-        LockPersonality = true;
-        DeviceAllow = [ "" ];
-        DevicePolicy = "closed";
-        CapabilityBoundingSet = [ "" ];
+        RestrictSUIDSGID = true;
+        SocketBindAllow = "tcp:${toString cfg.port}";
+        SocketBindDeny = "any";
+        SystemCallArchitectures = "native";
       };
     };
   };
