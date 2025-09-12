@@ -28,6 +28,18 @@ in
       description = "The Pydio Cells package to use.";
     };
 
+    user = mkOption {
+      type = types.str;
+      default = "pydio";
+      description = "User account under which Pydio Cells runs.";
+    };
+
+    group = mkOption {
+      type = types.str;
+      default = "pydio";
+      description = "Group under which Pydio Cells runs.";
+    };
+
     extraGroups = mkOption {
       type = types.listOf types.str;
       default = [ ];
@@ -104,15 +116,6 @@ in
       };
     };
 
-    stateDirectory = mkOption {
-      type = types.str;
-      default = "pydio";
-
-      description = ''
-        Directory for Pydio Cells state
-      '';
-    };
-
     port = mkOption {
       type = types.int;
       default = 8080;
@@ -148,6 +151,19 @@ in
       allowedTCPPorts = [ cfg.port ];
     };
 
+    users = {
+      users = mkIf (cfg.user == "pydio") {
+        pydio = {
+          group = cfg.group;
+          isSystemUser = true;
+        };
+      };
+
+      groups = mkIf (cfg.group == "pydio") {
+        pydio = { };
+      };
+    };
+
     systemd.services.cells = {
       description = "Pydio Cells content collaboration platform";
 
@@ -175,12 +191,16 @@ in
       '';
 
       serviceConfig = {
-        DynamicUser = true;
-        StateDirectory = cfg.stateDirectory;
-        StateDirectoryMode = "0700";
-        UMask = "0077";
+        User = "pydio";
+        Group = "pydio";
 
         SupplementaryGroups = cfg.extraGroups;
+
+        StateDirectory = "pydio";
+        StateDirectoryMode = "0700";
+        LogsDirectory = "pydio";
+        LogsDirectoryMode = "0750";
+        UMask = "0077";
 
         EnvironmentFile = cfg.environmentFile;
 
