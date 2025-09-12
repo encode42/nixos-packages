@@ -233,6 +233,8 @@ in
         SocketBindAllow = [
           "tcp:${toString cfg.port}"
           "tcp:8030"
+          "tcp:9000"
+          "tcp:9001"
         ];
         SocketBindDeny = "any";
         SystemCallArchitectures = "native";
