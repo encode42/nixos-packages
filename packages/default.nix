@@ -1,12 +1,27 @@
 { pkgs, ... }:
 
+let
+  languagetool-packages = pkgs.callPackage ./languagetool-ngrams { };
+in
 rec {
   #byparr = pkgs.callPackage ./byparr { };
   cells = pkgs.callPackage ./cells { };
   #decluttarr = pkgs.callPackage ./decluttarr { };
   #doreah = pkgs.callPackage ./doreah { };
-  #maloja = pkgs.callPackage ./maloja { inherit psutil doreah nimrodel; };
+  #maloja = pkgs.callPackage ./maloja { inherit doreah nimrodel; };
   #nimrodel = pkgs.callPackage ./nimrodel { inherit doreah; };
   omnipoly = pkgs.callPackage ./omnipoly { };
-  #psutil = pkgs.callPackage ./psutil { };
+
+  inherit (languagetool-packages)
+    languagetool-ngrams
+    languagetool-ngrams-de
+    languagetool-ngrams-en
+    languagetool-ngrams-es
+    languagetool-ngrams-fr
+    languagetool-ngrams-he
+    languagetool-ngrams-it
+    languagetool-ngrams-nl
+    languagetool-ngrams-ru
+    languagetool-ngrams-zh
+    ;
 }
