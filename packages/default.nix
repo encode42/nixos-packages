@@ -11,6 +11,7 @@ rec {
   #maloja = pkgs.callPackage ./maloja { inherit doreah nimrodel; };
   #nimrodel = pkgs.callPackage ./nimrodel { inherit doreah; };
   omnipoly = pkgs.callPackage ./omnipoly { };
+  slskd = pkgs.callPackage ./slskd { };
 
   inherit (languagetool-packages)
     languagetool-ngrams
