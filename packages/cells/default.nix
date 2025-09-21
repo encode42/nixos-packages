@@ -69,7 +69,10 @@ buildGoModule rec {
         "TestShareLinks"
       ];
     in
-    [ "-v" "-skip=^${builtins.concatStringsSep "$|^" skippedTests}$" ];
+    [
+      "-v"
+      "-skip=^${builtins.concatStringsSep "$|^" skippedTests}$"
+    ];
 
   meta = {
     description = "Future-proof content collaboration platform";
