@@ -8,6 +8,7 @@ rec {
   cells = pkgs.callPackage ./cells { };
   #decluttarr = pkgs.callPackage ./decluttarr { };
   #doreah = pkgs.callPackage ./doreah { };
+  iso2god-rs = pkgs.callPackage ./iso2god-rs { };
   #maloja = pkgs.callPackage ./maloja { inherit doreah nimrodel; };
   #nimrodel = pkgs.callPackage ./nimrodel { inherit doreah; };
   omnipoly = pkgs.callPackage ./omnipoly { };

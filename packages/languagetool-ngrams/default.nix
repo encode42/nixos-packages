@@ -101,7 +101,7 @@ let
       '';
     };
 
-  datasetPackages = lib.mapAttrs (language: attrs: mkDatasetPackage language attrs) availableDatasets;
+  datasetPackages = lib.mapAttrs mkDatasetPackage availableDatasets;
 
   prefixedDatasetPackages = lib.listToAttrs (
     map (language: {
