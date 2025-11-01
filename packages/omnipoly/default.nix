@@ -6,16 +6,16 @@
 
 buildNpmPackage rec {
   pname = "omnipoly";
-  version = "0.13.0";
+  version = "0.14.3";
 
   src = fetchFromGitHub {
     owner = "kWeglinski";
     repo = "OmniPoly";
     tag = "v${version}";
-    hash = "sha256-avwy+UClh+QEoo3Z0noF0W6X8YK2iNUssAUKpZ1ad0k=";
+    hash = "sha256-ZDrnF17vSUr59fX4KFNcoBasroD2GGI9YmDtE8L43os=";
   };
 
-  npmDepsHash = "sha256-X+5Qsnk0RIgi7pl4a0TbmVobg+pv1Ls1pwrcjn2pPPQ=";
+  npmDepsHash = "sha256-PTMWlMSlNK41xk5NvkzWRNOCFukFd9GPdXOcNUB6NWg=";
 
   installPhase = ''
     mkdir -p $out/share/${pname}
