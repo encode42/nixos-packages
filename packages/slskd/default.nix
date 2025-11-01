@@ -21,13 +21,13 @@ let
 in
 buildDotnetModule rec {
   pname = "slskd";
-  version = "0.23.2";
+  version = "0.23.2-unstable";
 
   src = fetchFromGitHub {
-    owner = "encode42";
+    owner = "slskd";
     repo = "slskd";
-    rev = "f7156c08b159875cc3f8b4e59cb3babd8e475cca";
-    hash = "sha256-9n+eAbhxA6OEXnxk95Rjt9X8VkP08jbHNJ9b9G2PtwE=";
+    rev = "0a15a71028c2a12795023550f28d416dd050763d";
+    hash = "sha256-vq78sT9wPGaTggZi+8O1ATBWpPTiSSki4H8u9M/xH3w=";
   };
 
   nativeBuildInputs = [
@@ -75,13 +75,14 @@ buildDotnetModule rec {
   };
 
   meta = {
-    description = "Modern client-server application for the Soulseek file sharing network (fork with additional features)";
-    homepage = "https://github.com/encode42/slskd";
+    description = "Modern client-server application for the Soulseek file sharing network";
+    homepage = "https://github.com/slskd/slskd";
     license = lib.licenses.agpl3Plus;
     maintainers = with lib.maintainers; [
       ppom
       melvyn2
       getchoo
+      encode42
     ];
     mainProgram = "slskd";
     platforms = lib.platforms.linux;
