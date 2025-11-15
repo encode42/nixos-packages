@@ -21,13 +21,13 @@ let
 in
 buildDotnetModule rec {
   pname = "slskd";
-  version = "0.23.2-unstable";
+  version = "0.24.0-unstable";
 
   src = fetchFromGitHub {
-    owner = "slskd";
+    owner = "encode42";
     repo = "slskd";
-    rev = "0a15a71028c2a12795023550f28d416dd050763d";
-    hash = "sha256-vq78sT9wPGaTggZi+8O1ATBWpPTiSSki4H8u9M/xH3w=";
+    rev = "7590d862ff42e103c6230dc405d7ac61290bc14d";
+    hash = "sha256-T4UC7y2SUhHrZPN7zeZjr8hxAT6OM3FhSE4Rild2PLo=";
   };
 
   nativeBuildInputs = [
