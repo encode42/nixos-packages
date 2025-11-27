@@ -4,14 +4,19 @@ let
   languagetool-packages = pkgs.callPackage ./languagetool-ngrams { };
 in
 rec {
-  #byparr = pkgs.callPackage ./byparr { };
+  captcha-python-async = pkgs.callPackage ./2captcha-python-async { };
+  apify-fingerprint-datapoints = pkgs.callPackage ./apify-fingerprint-datapoints { };
+  browserforge = pkgs.callPackage ./browserforge { inherit apify-fingerprint-datapoints; };
+  byparr = pkgs.callPackage ./byparr { inherit camoufox playwright-captcha; };
+  camoufox = pkgs.callPackage ./camoufox { inherit browserforge; };
   cells = pkgs.callPackage ./cells { };
-  #decluttarr = pkgs.callPackage ./decluttarr { };
   #doreah = pkgs.callPackage ./doreah { };
   iso2god-rs = pkgs.callPackage ./iso2god-rs { };
+  #libfreenect = pkgs.callPackage ./libfreenect { };
   #maloja = pkgs.callPackage ./maloja { inherit doreah nimrodel; };
   #nimrodel = pkgs.callPackage ./nimrodel { inherit doreah; };
   omnipoly = pkgs.callPackage ./omnipoly { };
+  playwright-captcha = pkgs.callPackage ./playwright-captcha { inherit captcha-python-async; };
   slskd = pkgs.callPackage ./slskd { };
 
   inherit (languagetool-packages)
