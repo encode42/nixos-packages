@@ -1,18 +1,18 @@
-{ self, nixpkgs }:
+{
+  self,
+  ...
+}@inputs:
 
 let
-  overlay = final: prev: import ./packages { pkgs = final; };
-
-  forAllSystems = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed;
+  forAllSystems = inputs.nixpkgs.lib.genAttrs inputs.nixpkgs.lib.systems.flakeExposed;
 
   overlayAllSystems =
     path:
     forAllSystems (
       system:
       let
-        pkgs = import nixpkgs {
+        pkgs = import inputs.nixpkgs {
           inherit system;
-          overlays = [ self.overlays.default ];
         };
 
         flake = self;
@@ -21,9 +21,7 @@ let
     );
 in
 {
-  formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
-
-  overlays.default = overlay;
+  formatter = forAllSystems (system: inputs.nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
   packages = overlayAllSystems ./packages;
 
