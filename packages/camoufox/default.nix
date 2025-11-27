@@ -36,6 +36,7 @@ python3.pkgs.buildPythonPackage rec {
     tqdm
     ua-parser
     requests
+    geoip2
   ];
 
   pythonImportsCheck = [ "camoufox" ];
