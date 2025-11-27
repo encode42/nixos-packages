@@ -100,6 +100,8 @@ in
         {
           HOST = cfg.host;
           PORT = toString cfg.port;
+
+          XDG_CACHE_HOME = "/run/byparr/cache";
         }
       ];
 
@@ -107,6 +109,8 @@ in
         DynamicUser = true;
         StateDirectory = "byparr";
         StateDirectoryMode = "0700";
+        RuntimeDirectory = "byparr";
+        RuntimeDirectoryMode = "0750";
         UMask = "0077";
 
         EnvironmentFile = cfg.environmentFile;
@@ -121,7 +125,6 @@ in
         PrivateDevices = true;
         PrivateTmp = true;
         PrivateUsers = true;
-
         ProcSubset = "pid";
         ProtectClock = true;
         ProtectControlGroups = true;
@@ -130,7 +133,6 @@ in
         ProtectKernelLogs = true;
         ProtectKernelModules = true;
         ProtectKernelTunables = true;
-
         ProtectProc = "invisible";
         ProtectSystem = "strict";
         RemoveIPC = true;
@@ -141,7 +143,6 @@ in
         RestrictNamespaces = true;
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
-
         SocketBindAllow = "tcp:${toString cfg.port}";
         SocketBindDeny = "any";
         SystemCallArchitectures = "native";
