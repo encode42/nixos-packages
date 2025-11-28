@@ -28,6 +28,18 @@ in
       description = "The Byparr package to use.";
     };
 
+    user = mkOption {
+      type = types.str;
+      default = "byparr";
+      description = "User account under which Byparr runs.";
+    };
+
+    group = mkOption {
+      type = types.str;
+      default = "byparr";
+      description = "Group under which Byparr runs.";
+    };
+
     environment = mkOption {
       type = types.attrsOf types.str;
       default = { };
@@ -87,6 +99,22 @@ in
       cfg.port
     ];
 
+    users = {
+      users = mkIf (cfg.user == "byparr") {
+        byparr = {
+          group = cfg.group;
+
+          isSystemUser = true;
+
+          home = "/var/lib/byparr";
+        };
+      };
+
+      groups = mkIf (cfg.group == "byparr") {
+        byparr = { };
+      };
+    };
+
     systemd.services.byparr = {
       description = "Byparr provides http cookies and headers for websites protected with anti-bot protections";
 
@@ -100,18 +128,17 @@ in
         {
           HOST = cfg.host;
           PORT = toString cfg.port;
-
-          XDG_CACHE_HOME = "/run/byparr/cache";
         }
       ];
 
       serviceConfig = {
-        DynamicUser = true;
+        User = cfg.user;
+        Group = cfg.group;
+
         StateDirectory = "byparr";
         StateDirectoryMode = "0700";
         RuntimeDirectory = "byparr";
-        RuntimeDirectoryMode = "0755";
-        UMask = "0022";
+        RuntimeDirectoryMode = "0750";
 
         EnvironmentFile = cfg.environmentFile;
 
