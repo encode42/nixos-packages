@@ -1,0 +1,33 @@
+diff --git a/playwright_captcha/utils/camoufox_add_init_script/add_init_script.py b/playwright_captcha/utils/camoufox_add_init_script/add_init_script.py
+index e8f2dce..3a97f65 100644
+--- a/playwright_captcha/utils/camoufox_add_init_script/add_init_script.py
++++ b/playwright_captcha/utils/camoufox_add_init_script/add_init_script.py
+@@ -5,6 +5,9 @@ from pathlib import Path
+ 
+ import aiofiles
+ 
++from platformdirs import user_cache_dir
++
++INSTALL_DIR: Path = Path(user_cache_dir("playwright-captcha"))
+ 
+ def get_addon_path():
+     """Get the absolute path to the addon's directory"""
+@@ -27,7 +30,7 @@ async def add_init_script(js_script_string: str, addon_path: str = 'addon') -> s
+     """
+ 
+     # create the scripts directory if it doesn't exist
+-    scripts_dir = os.path.join(addon_path, 'scripts')
++    scripts_dir = os.path.join(INSTALL_DIR, 'scripts')
+     os.makedirs(scripts_dir, exist_ok=True)
+ 
+     # generate hash for the script
+@@ -67,7 +70,7 @@ def clean_scripts(addon_path: str = 'addon') -> None:
+     :param addon_path: Path to the addon's directory
+     """
+ 
+-    scripts_dir = os.path.join(addon_path, 'scripts')
++    scripts_dir = os.path.join(INSTALL_DIR, 'scripts')
+     if os.path.exists(scripts_dir):
+         for filename in os.listdir(scripts_dir):
+             file_path = os.path.join(scripts_dir, filename)
+             from platformdirs import user_cache_dir

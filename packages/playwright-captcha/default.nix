@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   python3,
   fetchPypi,
@@ -21,9 +22,26 @@ python3.pkgs.buildPythonPackage rec {
     poetry-core
   ];
 
+  nativeBuildInputs = with pkgs; [
+    dos2unix
+  ];
+
   dependencies = with python3.pkgs; [
     playwright
+    platformdirs
     captcha-python-async
+  ];
+
+  prePatch = ''
+    dos2unix ./playwright_captcha/utils/camoufox_add_init_script/add_init_script.py
+  '';
+
+  patches = [
+    ./use_cache_for_scripts.patch
+  ];
+
+  patchFlags = [
+    "-p1"
   ];
 
   pythonImportsCheck = [ "playwright_captcha" ];
