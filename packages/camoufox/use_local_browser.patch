@@ -1,0 +1,28 @@
+diff --git a/pythonlib/camoufox/pkgman.py b/pythonlib/camoufox/pkgman.py
+index b6f0c3f..b168a73 100644
+--- a/pythonlib/camoufox/pkgman.py
++++ b/pythonlib/camoufox/pkgman.py
+@@ -54,6 +54,8 @@ OS_NAME: Literal['mac', 'win', 'lin'] = OS_MAP[sys.platform]
+ INSTALL_DIR: Path = Path(user_cache_dir("camoufox"))
+ LOCAL_DATA: Path = Path(os.path.abspath(__file__)).parent
+ 
++STORE_DIR: Path = Path(LOCAL_DATA / "camoufox-bin")
++
+ # The supported architectures for each OS
+ OS_ARCH_MATRIX: Dict[str, List[str]] = {
+     'win': ['x86_64', 'i686'],
+@@ -326,10 +328,12 @@ class CamoufoxFetcher(GitHubDownloader):
+ 
+             # Fetch the latest zip
+             with tempfile.NamedTemporaryFile() as temp_file:
+-                self.download_file(temp_file, self.url)
+-                self.extract_zip(temp_file)
++                #self.download_file(temp_file, self.url)
++                #self.extract_zip(temp_file)
+                 self.set_version()
+ 
++                shutil.copytree(STORE_DIR, INSTALL_DIR, dirs_exist_ok=True)
++
+             # Set permissions on INSTALL_DIR
+             if OS_NAME != 'win':
+                 os.system(f'chmod -R 755 {shlex.quote(str(INSTALL_DIR))}')  # nosec

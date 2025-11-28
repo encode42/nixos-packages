@@ -8,7 +8,8 @@ rec {
   apify-fingerprint-datapoints = pkgs.callPackage ./apify-fingerprint-datapoints { };
   browserforge = pkgs.callPackage ./browserforge { inherit apify-fingerprint-datapoints; };
   byparr = pkgs.callPackage ./byparr { inherit camoufox playwright-captcha; };
-  camoufox = pkgs.callPackage ./camoufox { inherit browserforge; };
+  camoufox = pkgs.callPackage ./camoufox { inherit browserforge camoufox-browser; };
+  camoufox-browser = pkgs.callPackage ./camoufox-browser { };
   cells = pkgs.callPackage ./cells { };
   #doreah = pkgs.callPackage ./doreah { };
   iso2god-rs = pkgs.callPackage ./iso2god-rs { };

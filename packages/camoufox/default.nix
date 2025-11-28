@@ -2,9 +2,17 @@
   lib,
   python3,
   fetchPypi,
+  fetchurl,
   browserforge,
+  camoufox-browser,
 }:
 
+let
+  geoliteDatabase = fetchurl {
+    url = "https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-City.mmdb";
+    hash = "sha256-JXiAzKSacZM+jB6XSQOd6hQjaBThtojjxn54BjIO4cA=";
+  };
+in
 python3.pkgs.buildPythonPackage rec {
   pname = "camoufox";
   version = "0.4.11";
@@ -38,6 +46,20 @@ python3.pkgs.buildPythonPackage rec {
     requests
     geoip2
   ];
+
+  patches = [
+    ./use_local_browser.patch
+  ];
+
+  patchFlags = [
+    "-p2"
+  ];
+
+  postInstall = ''
+    ln -s ${camoufox-browser}/lib/camoufox-bin-* $out/${python3.sitePackages}/camoufox/camoufox-bin
+
+    cp ${geoliteDatabase} $out/${python3.sitePackages}/camoufox/GeoLite2-City.mmdb
+  '';
 
   pythonImportsCheck = [ "camoufox" ];
 
