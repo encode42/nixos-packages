@@ -15,17 +15,17 @@ pkgs.nixosTest {
         flake.nixosModules.byparr
       ];
 
+      virtualisation.diskSize = 4096;
+
       services.byparr = {
         enable = true;
       };
     };
 
-  # TODO: This is a very basic test
-
   testScript = ''
     machine.start()
     machine.wait_for_unit("byparr.service")
-    machine.succeed("systemctl is-active byparr.service")
+    machine.succeed("curl -L -X POST 'http://localhost:8191/v1' -H 'Content-Type: application/json' --data-raw '{ \"cmd\": \"request.get\", \"url\": \"http://www.google.com/\", \"maxTimeout\": 60000 }'")
   '';
 
   meta.maintainers = [ lib.maintainers.encode42 ];
