@@ -101,7 +101,7 @@ in
           HOST = cfg.host;
           PORT = toString cfg.port;
 
-          XDG_CACHE_HOME = "$STATE_DIRECTORY/cache";
+          XDG_CACHE_HOME = "%S/private/byparr/cache";
         }
       ];
 
