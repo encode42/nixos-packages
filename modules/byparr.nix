@@ -101,7 +101,7 @@ in
           HOST = cfg.host;
           PORT = toString cfg.port;
 
-          XDG_CACHE_HOME = "/var/cache/byparr";
+          XDG_CACHE_HOME = "$STATE_DIRECTORY/cache";
         }
       ];
 
@@ -111,9 +111,7 @@ in
         StateDirectoryMode = "0700";
         RuntimeDirectory = "byparr";
         RuntimeDirectoryMode = "0750";
-        CacheDirectory = "byparr";
-        CacheDirectoryMode = "0750";
-        UMask = "0077";
+        UMask = "0022";
 
         EnvironmentFile = cfg.environmentFile;
 
