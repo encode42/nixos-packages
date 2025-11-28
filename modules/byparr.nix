@@ -101,7 +101,7 @@ in
           HOST = cfg.host;
           PORT = toString cfg.port;
 
-          XDG_CACHE_HOME = "%S/private/byparr/cache";
+          XDG_CACHE_HOME = "/run/byparr/cache";
         }
       ];
 
@@ -110,7 +110,7 @@ in
         StateDirectory = "byparr";
         StateDirectoryMode = "0700";
         RuntimeDirectory = "byparr";
-        RuntimeDirectoryMode = "0750";
+        RuntimeDirectoryMode = "0755";
         UMask = "0022";
 
         EnvironmentFile = cfg.environmentFile;
