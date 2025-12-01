@@ -5,7 +5,7 @@
   ...
 }:
 
-pkgs.nixosTest {
+pkgs.testers.nixosTest {
   name = "cells-test";
 
   nodes.machine =

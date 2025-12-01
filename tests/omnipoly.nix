@@ -5,7 +5,7 @@
   ...
 }:
 
-pkgs.nixosTest {
+pkgs.testers.nixosTest {
   name = "omnipoly-test";
 
   nodes.machine =
