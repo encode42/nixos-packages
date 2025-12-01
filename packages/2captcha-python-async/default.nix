@@ -7,6 +7,7 @@
 python3.pkgs.buildPythonPackage rec {
   pname = "2captcha-python-async";
   version = "1.5.1";
+  pyproject = true;
 
   src = fetchPypi {
     pname = "2captcha_python_async";

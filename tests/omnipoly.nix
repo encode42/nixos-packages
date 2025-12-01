@@ -12,7 +12,6 @@ pkgs.nixosTest {
     { config, ... }:
     {
       imports = [
-        flake.nixosModules.libretranslate
         flake.nixosModules.omnipoly
       ];
 
@@ -24,6 +23,8 @@ pkgs.nixosTest {
 
       services.libretranslate = {
         enable = true;
+
+        disableWebUI = true;
 
         port = 7000;
       };

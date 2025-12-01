@@ -15,7 +15,6 @@ let
     mkIf
     mkOption
     mkEnableOption
-    mkPackageOption
     ;
 in
 {

@@ -191,8 +191,8 @@ in
       '';
 
       serviceConfig = {
-        User = "pydio";
-        Group = "pydio";
+        User = cfg.user;
+        Group = cfg.group;
 
         SupplementaryGroups = cfg.extraGroups;
 
