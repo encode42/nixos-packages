@@ -1,0 +1,15 @@
+# I'm not sure why this is causing a build failure.
+
+diff --git a/kit/Kit.cpp b/kit/Kit.cpp
+index d97394dbd9..4b895b154e 100644
+--- a/kit/Kit.cpp
++++ b/kit/Kit.cpp
+@@ -2221,7 +2221,7 @@ std::shared_ptr<lok::Document> Document::load(const std::shared_ptr<ChildSession
+         }
+         if (session->isAllowManageRedlines())
+         {
+-            _loKitDocument->setAllowManageRedlines(viewId, true);
++            //_loKitDocument->setAllowManageRedlines(viewId, true);
+         }
+     }
+ 

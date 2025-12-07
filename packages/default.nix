@@ -11,6 +11,7 @@ rec {
   camoufox = pkgs.callPackage ./camoufox { inherit browserforge camoufox-browser; };
   camoufox-browser = pkgs.callPackage ./camoufox-browser { };
   cells = pkgs.callPackage ./cells { };
+  collabora-online = pkgs.callPackage ./collabora-online { };
   #doreah = pkgs.callPackage ./doreah { };
   iso2god-rs = pkgs.callPackage ./iso2god-rs { };
   #libfreenect = pkgs.callPackage ./libfreenect { };
