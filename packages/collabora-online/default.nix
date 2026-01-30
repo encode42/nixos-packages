@@ -25,13 +25,13 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "collabora-online";
-  version = "25.04.7-3";
+  version = "25.04.8-2";
 
   src = fetchFromGitHub {
     owner = "CollaboraOnline";
     repo = "online";
     tag = "cp-${finalAttrs.version}";
-    hash = "sha256-JG6LdVcVAWngJIcD/QRecZAIJDBoZrqlruUB/TK9ecg=";
+    hash = "sha256-ohMz3iyadDQI8t16RG0cjVBy756DBk7uVd+lTuFY87Q=";
   };
 
   nativeBuildInputs = [
