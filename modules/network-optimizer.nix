@@ -91,6 +91,10 @@ in
         }
       ];
 
+      script = ''
+        exec ${lib.getExe cfg.package}
+      '';
+
       serviceConfig = {
         DynamicUser = true;
         StateDirectory = "network-optimizer";
@@ -98,8 +102,6 @@ in
         UMask = "0077";
 
         EnvironmentFile = cfg.environmentFile;
-
-        ExecStart = lib.getExe cfg.package;
 
         AmbientCapabilities = "";
         CapabilityBoundingSet = [ "" ];
