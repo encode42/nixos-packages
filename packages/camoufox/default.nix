@@ -8,11 +8,11 @@
 }:
 
 let
-  geoliteVersion = "2025.11.28";
+  geoliteVersion = "2026.01.28";
 
   geoliteDatabase = fetchurl {
     url = "https://github.com/P3TERX/GeoLite.mmdb/releases/download/${geoliteVersion}/GeoLite2-City.mmdb";
-    hash = "sha256-PIENm/MdATtAF9Y1LFcU1+FD8is91E7LN1xmFQ13vOk=";
+    hash = "sha256-aW/51Ob6KMf3YLzW02Lh8/cp8/fn+doRdOjj/CSDtCo=";
   };
 in
 python3.pkgs.buildPythonPackage rec {
