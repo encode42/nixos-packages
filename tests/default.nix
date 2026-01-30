@@ -13,5 +13,6 @@ in
   byparr = mkTest ./byparr.nix;
   cells = mkTest ./cells.nix;
   #maloja = mkTest ./maloja.nix;
+  network-optimizer = mkTest ./network-optimizer.nix;
   omnipoly = mkTest ./omnipoly.nix;
 }

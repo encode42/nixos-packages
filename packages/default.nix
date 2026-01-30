@@ -11,11 +11,14 @@ rec {
   camoufox = pkgs.callPackage ./camoufox { inherit browserforge camoufox-browser; };
   camoufox-browser = pkgs.callPackage ./camoufox-browser { };
   cells = pkgs.callPackage ./cells { };
+  cells-client = pkgs.callPackage ./cells-client { };
+  cells-sync = pkgs.callPackage ./cells-sync { };
   collabora-online = pkgs.callPackage ./collabora-online { };
   #doreah = pkgs.callPackage ./doreah { };
   iso2god-rs = pkgs.callPackage ./iso2god-rs { };
   #libfreenect = pkgs.callPackage ./libfreenect { };
   #maloja = pkgs.callPackage ./maloja { inherit doreah nimrodel; };
+  network-optimizer = pkgs.callPackage ./network-optimizer { };
   #nimrodel = pkgs.callPackage ./nimrodel { inherit doreah; };
   omnipoly = pkgs.callPackage ./omnipoly { };
   playwright-captcha = pkgs.callPackage ./playwright-captcha { inherit captcha-python-async; };
