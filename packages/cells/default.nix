@@ -6,16 +6,16 @@
 
 buildGoModule rec {
   pname = "cells";
-  version = "4.4.15";
+  version = "4.4.17";
 
   src = fetchFromGitHub {
     owner = "pydio";
     repo = "cells";
     tag = "v${version}";
-    hash = "sha256-cxKIx9xyU7G5U0eKCfX2S69VybFscgLic3OaqG/gsFY=";
+    hash = "sha256-p2/H75n1ZTnAuTHmJiaVt82t5OVk85ah8Zmgey0mF58=";
   };
 
-  vendorHash = "sha256-v23Ep9mTyG8fe5xa9ay9T4/ZEBU9LQHj6keIPZmm5d0=";
+  vendorHash = "sha256-9jPjlAUtMQe0y2Eubv4O6i+Bl3QOmdBxbCnrHKbubo0=";
 
   ldflags = [
     "-s"
