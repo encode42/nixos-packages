@@ -24,17 +24,30 @@ buildDotnetModule rec {
 
   projectFile = "src/NetworkOptimizer.Web";
 
+  dotnetBuildFlags = [
+    "-p:OverridePackageVersion=${version}"
+  ];
+
+  buildPhase = ''
+    runHook preBuild
+
+    env dotnet publish $dotnetProjectFiles \
+      --configuration Release \
+      --self-contained \
+      --output "$out/lib/${pname}" \
+      --no-restore \
+      ''${dotnetInstallFlags[@]}  \
+      ''${dotnetFlags[@]}
+
+    runHook postBuild
+  '';
+
+  selfContainedBuild = true;
   enableParallelBuilding = false;
 
   nativeBuildInputs = with pkgs; [
     git
   ];
-
-  postBuild = ''
-    mkdir -p $out/share/network-optimizer/NetworkOptimizer.Web
-
-    cp -r src/NetworkOptimizer.Web/wwwroot $out/share/network-optimizer/NetworkOptimizer.Web
-  '';
 
   meta = {
     description = "Self-hosted performance optimization and security audit tool for UniFi Networks";

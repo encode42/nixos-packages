@@ -88,7 +88,7 @@ in
         cfg.environment
         {
           ASPNETCORE_HTTP_PORTS = toString cfg.port;
-          ASPNETCORE_WEBROOT = "${cfg.package}/share/network-optimizer/NetworkOptimizer.Web/wwwroot";
+          ASPNETCORE_CONTENTROOT = "${cfg.package}/lib/network-optimizer/";
         }
       ];
 
