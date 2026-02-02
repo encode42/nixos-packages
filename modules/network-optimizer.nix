@@ -59,6 +59,16 @@ in
       '';
     };
 
+    iperf3 = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = ''
+          Whether to enable the iperf3 server for network speed tests.
+        '';
+      };
+    };
+
     port = mkOption {
       type = types.int;
       default = 8042;
@@ -78,11 +88,19 @@ in
       cfg.port
     ];
 
+    services.iperf3 = mkIf cfg.iperf3.enable {
+      enable = lib.mkDefault true;
+    };
+
     systemd.services.network-optimizer = {
       description = "NetworkOptimizer self-hosted performance optimization and security audit tool for UniFi Networks";
 
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
+
+      path = with pkgs; [
+        sshpass
+      ];
 
       environment = lib.mkMerge [
         cfg.environment
@@ -90,11 +108,6 @@ in
           ASPNETCORE_HTTP_PORTS = toString cfg.port;
           ASPNETCORE_CONTENTROOT = "${cfg.package}/lib/network-optimizer/";
         }
-      ];
-
-      path = with pkgs; [
-        sshpass
-        iperf3
       ];
 
       serviceConfig = {
