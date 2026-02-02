@@ -6,9 +6,6 @@
   fetchFromGitHub,
 }:
 
-let
-  webRootPath = "NetworkOptimizer.Web/wwwroot";
-in
 buildDotnetModule rec {
   pname = "network-optimizer";
   version = "1.1.9";
@@ -34,9 +31,9 @@ buildDotnetModule rec {
   ];
 
   postBuild = ''
-    mkdir -p $out/share/network-optimizer/${webRootPath}
+    mkdir -p $out/share/network-optimizer/NetworkOptimizer.Web
 
-    cp -r src/${webRootPath} $out/share/network-optimizer/${webRootPath}
+    cp -r src/NetworkOptimizer.Web/wwwroot $out/share/network-optimizer/NetworkOptimizer.Web
   '';
 
   meta = {
