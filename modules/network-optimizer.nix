@@ -91,15 +91,21 @@ in
         }
       ];
 
-      script = ''
-        exec ${lib.getExe cfg.package}
-      '';
+      path = with pkgs; [
+        sshpass
+        iperf3
+      ];
 
       serviceConfig = {
         DynamicUser = true;
+
         StateDirectory = "network-optimizer";
         StateDirectoryMode = "0700";
         UMask = "0077";
+
+        WorkingDirectory = "/var/lib/network-optimizer";
+
+        ExecStart = lib.getExe cfg.package;
 
         EnvironmentFile = cfg.environmentFile;
 
