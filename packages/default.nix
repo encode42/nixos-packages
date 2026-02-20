@@ -18,6 +18,7 @@ rec {
   iso2god-rs = pkgs.callPackage ./iso2god-rs { };
   #libfreenect = pkgs.callPackage ./libfreenect { };
   #maloja = pkgs.callPackage ./maloja { inherit doreah nimrodel; };
+  mediaelch = pkgs.callPackage ./mediaelch { };
   network-optimizer = pkgs.callPackage ./network-optimizer { };
   #nimrodel = pkgs.callPackage ./nimrodel { inherit doreah; };
   omnipoly = pkgs.callPackage ./omnipoly { };
